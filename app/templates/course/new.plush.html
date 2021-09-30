@@ -1,0 +1,20 @@
+
+<div class="container w-md-100">
+	<div class="py-4 mb-2">
+		<h3 class="d-inline-block">New Course</h3>
+   	</div>
+
+  	<%= formFor(course, {action: courseCreatePath(), method: "POST"}) { %>
+        <div class="mb-3 grid-form">
+            <%= f.InputTag("Nombre") %>
+            <%= f.InputTag("Codigo") %>
+        </div>
+        <div class="mb-3 grid-form">
+            <%= f.InputTag("Creditos", {label: "Numero De Creditos", placeholder:"#"}) %>
+        </div>
+	 	<div class="d-flex justify-content-end">
+        	<%= linkTo(rootPath(), {class: "btn btn-warning mr-3", "data-confirm": "Are you sure?", body: "Cancel"}) %>
+    	<button class="btn btn-success" role="submit">Save</button>
+</div>
+  	<% } %>
+</div>

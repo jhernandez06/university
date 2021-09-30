@@ -1,0 +1,24 @@
+
+<div class="container w-md-100">
+	<div class="py-4 mb-2">
+		<h3 class="d-inline-block">New Teacher</h3>
+   	</div>
+
+  	<%= formFor(teacher, {action: teacherCreatePath(), method: "POST"}) { %>
+        <div class="mb-3 grid-form">
+            <%= f.InputTag("Nombre") %>
+            <%= f.InputTag("Apellido") %>
+        </div>
+        <div>
+            <%= f.InputTag("Cedula", {label: "enter your document number", placeholder:"#########"}) %>
+        </div>
+        <div class="mb-3 grid-form">
+            <%= f.SelectTag("FacultadID", {label:"Select a Faculty", options: FacultiesList }) %>
+            <%= f.SelectTag("Titulo", {label:"Select your University degree", options: ["Engineer", "Doctor", "Art Teacher", "Sport Teacher", "lawyer"]}) %>
+        </div>
+	 	<div class="d-flex justify-content-end">
+        	        <%= linkTo(rootPath(), {class: "btn btn-warning mr-3", "data-confirm": "Are you sure?", body: "Cancel"}) %>
+    	                <button class="btn btn-success" role="submit">Save</button>
+                </div>
+  	<% } %>
+</div>

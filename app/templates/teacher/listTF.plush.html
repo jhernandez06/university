@@ -1,0 +1,35 @@
+
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Filter By Faculty
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="/teacher/listTF">All Faculties</a>
+    <a class="dropdown-item" href="/teacher/listTF/?facultad=Ingenieria">Engineering</a>
+    <a class="dropdown-item" href="/teacher/listTF/?facultad=Medicina">Medicine</a>
+    <a class="dropdown-item" href="/teacher/listTF/?facultad=Derecho">Law</a>
+    <a class="dropdown-item" href="/teacher/listTF/?facultad=Arte">Art</a>
+    <a class="dropdown-item" href="/teacher/listTF/?facultad=Educacion">Education</a>
+  </div>
+</div>
+<table class="table table-hover mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Faculty</th>
+        <th scope="col">Teacher</th>
+        <th scope="col">University degree</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for(TF) in teachersFacultades { %>
+        <tr>
+          <td><%= TF.Facultad %></td>
+          <td><%= TF.Nombre %> <%= TF.Apellido %></td>
+          <td><%= TF.Titulo %></td>
+        </tr>
+      <% }  %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content.start">
+    <%= paginator(paginatorTF) %>
+  </div>

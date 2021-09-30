@@ -1,0 +1,24 @@
+<table class="table table-hover mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Faculty</th>
+        <th scope="col">Course</th>
+        <th scope="col">Teacher</th>
+        <th scope="col">University degree</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for(TC) in teacherCourses { %>
+        <tr>
+          <td><%= TC.Facultad %></td>
+          <td><%= TC.Course %></td>
+          <td><%= TC.Nombre %> <%= TC.Apellido %></td>
+          <td><%= TC.Titulo %></td>
+        </tr>
+      <% }  %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-start">
+    <%= paginator(paginatorTC) %>
+  </div>
+  

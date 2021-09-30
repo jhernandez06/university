@@ -1,0 +1,1 @@
+DROP VIEW decano_facultads CASCADE;

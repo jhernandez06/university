@@ -1,0 +1,22 @@
+
+<table class="table table-hover mt-4">
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Cell Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for(decano) in decanos { %>
+        <tr>
+          <td><%= decano.Nombre %></td>
+          <td><%= decano.Apellido %></td>
+          <td><%= decano.Celular %></td>
+        </tr>
+      <% }  %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-start">
+    <%= paginator(paginatorD) %>
+  </div>
