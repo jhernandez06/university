@@ -11,16 +11,16 @@ import (
 
 func NewTeacher(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
-	facultades := models.Facultades{}
+	faculties := models.Faculties{}
 	FacultiesList := []map[string]interface{}{}
 
 	q := tx.Q()
-	if err := q.Order("nombre").All(&facultades); err != nil {
+	if err := q.Order("name").All(&faculties); err != nil {
 		return err
 	}
-	for _, f := range facultades {
+	for _, f := range faculties {
 		oneFaculty := map[string]interface{}{
-			f.Nombre: uuid.FromStringOrNil(f.ID.String()),
+			f.Name: uuid.FromStringOrNil(f.ID.String()),
 		}
 		FacultiesList = append(FacultiesList, oneFaculty)
 	}
@@ -31,17 +31,17 @@ func NewTeacher(c buffalo.Context) error {
 
 func CreateTeacher(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
-	facultades := models.Facultades{}
+	faculties := models.Faculties{}
 	teacher := models.Teacher{}
 	FacultiesList := []map[string]interface{}{}
 
 	q := tx.Q()
-	if err := q.Order("nombre").All(&facultades); err != nil {
+	if err := q.Order("name").All(&faculties); err != nil {
 		return err
 	}
-	for _, f := range facultades {
+	for _, f := range faculties {
 		oneFaculty := map[string]interface{}{
-			f.Nombre: uuid.FromStringOrNil(f.ID.String()),
+			f.Name: uuid.FromStringOrNil(f.ID.String()),
 		}
 		FacultiesList = append(FacultiesList, oneFaculty)
 	}
@@ -71,11 +71,26 @@ func ListTeacher(c buffalo.Context) error {
 	q.Paginator.PerPage = 5
 	q.Paginator.Offset = (q.Paginator.Page * q.Paginator.PerPage) - q.Paginator.PerPage
 
-	if err := q.Order("nombre").All(&teachers); err != nil {
+	if err := q.Order("first_name").All(&teachers); err != nil {
 		return err
 	}
 
 	c.Set("teachers", teachers)
 	c.Set("paginatorT", q.Paginator)
 	return c.Render(http.StatusOK, r.HTML("teacher/list.plush.html"))
+}
+
+func DeleteTeacher(c buffalo.Context) error {
+	tx := c.Value("tx").(*pop.Connection)
+	teacher := models.Teacher{}
+	teacherID := c.Param("teacher_id")
+	if err := tx.Find(&teacher, teacherID); err != nil {
+		c.Flash().Add("danger", "action could not be completed")
+		return c.Redirect(404, "/teacher/list")
+	}
+	if err := tx.Destroy(&teacher); err != nil {
+		return err
+	}
+	c.Flash().Add("success", "teacher deleted successfully")
+	return c.Redirect(http.StatusSeeOther, "/teacher/list")
 }

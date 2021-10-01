@@ -1,9 +1,9 @@
 create_table("teachers") {
 	t.Column("id", "uuid", {primary: true})
-	t.Column("facultad_id", "uuid", {})
-	t.Column("nombre", "string", {})
-	t.Column("apellido", "string", {})
-	t.Column("cedula", "string", {})
-	t.Column("titulo", "string", {})
+	t.Column("faculty_id", "uuid", {})
+	t.Column("first_name", "string", {})
+	t.Column("last_name", "string", {})
+	t.Column("identification_card", "string", {})
+	t.Column("job_title", "string", {})
 	t.Timestamps()
 }

@@ -13,9 +13,10 @@ import (
 // Course is used by pop to map your courses database table to your go code.
 type Course struct {
 	ID        uuid.UUID `json:"id" db:"id"`
-	Codigo    string    `json:"codigo" db:"codigo"`
-	Nombre    string    `json:"nombre" db:"nombre"`
+	Code      string    `json:"code" db:"code"`
+	Name      string    `json:"name" db:"name"`
 	Creditos  int       `json:"creditos" db:"creditos"`
+	KeyWord   string    `json:"-" db:"-"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
@@ -39,8 +40,8 @@ func (c Courses) String() string {
 // This method is not required and may be deleted.
 func (c *Course) Validate(tx *pop.Connection) *validate.Errors {
 	return validate.Validate(
-		&validators.StringIsPresent{Field: c.Codigo, Name: "Codigo"},
-		&validators.StringIsPresent{Field: c.Nombre, Name: "Nombre"},
+		&validators.StringIsPresent{Field: c.Code, Name: "Code"},
+		&validators.StringIsPresent{Field: c.Name, Name: "Name"},
 		&validators.IntIsPresent{Field: c.Creditos, Name: "Creditos"},
 	)
 }

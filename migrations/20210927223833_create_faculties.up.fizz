@@ -1,0 +1,12 @@
+sql("
+CREATE TABLE faculties (
+	id uuid primary key not null,
+    dean_id uuid not null,
+    number varchar not null,
+    location varchar not null,
+    name varchar not null,
+	created_at  timestamp without time zone  not null,
+    updated_at  timestamp without time zone  not null,
+    UNIQUE(dean_id)
+);
+")

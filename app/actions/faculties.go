@@ -11,39 +11,39 @@ import (
 
 func NewFaculty(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
-	decanos := models.Decanoes{}
-	DecanosList := []map[string]interface{}{}
+	deans := models.Deans{}
+	DeansList := []map[string]interface{}{}
 
 	q := tx.Q()
-	if err := q.Order("nombre, apellido").All(&decanos); err != nil {
+	if err := q.Order("first_name, last_name").All(&deans); err != nil {
 		return err
 	}
-	for _, decano := range decanos {
-		oneDecano := map[string]interface{}{
-			decano.Nombre + " " + decano.Apellido: uuid.FromStringOrNil(decano.ID.String()),
+	for _, d := range deans {
+		oneDean := map[string]interface{}{
+			d.FirstName + " " + d.LastName: uuid.FromStringOrNil(d.ID.String()),
 		}
-		DecanosList = append(DecanosList, oneDecano)
+		DeansList = append(DeansList, oneDean)
 	}
-	c.Set("decanosList", DecanosList)
-	c.Set("faculty", models.Facultad{})
-	return c.Render(http.StatusOK, r.HTML("facultad/new.plush.html"))
+	c.Set("deansList", DeansList)
+	c.Set("faculty", models.Faculty{})
+	return c.Render(http.StatusOK, r.HTML("faculty/new.plush.html"))
 }
 
 func CreateFaculty(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
-	faculty := models.Facultad{}
-	decanos := models.Decanoes{}
-	DecanosList := []map[string]interface{}{}
+	faculty := models.Faculty{}
+	deans := models.Deans{}
+	DeansList := []map[string]interface{}{}
 
 	q := tx.Q()
-	if err := q.Order("nombre, apellido").All(&decanos); err != nil {
+	if err := q.Order("first_name, last_name").All(&deans); err != nil {
 		return err
 	}
-	for _, decano := range decanos {
-		oneDecano := map[string]interface{}{
-			decano.Nombre + " " + decano.Apellido: uuid.FromStringOrNil(decano.ID.String()),
+	for _, d := range deans {
+		oneDean := map[string]interface{}{
+			d.FirstName + " " + d.LastName: uuid.FromStringOrNil(d.ID.String()),
 		}
-		DecanosList = append(DecanosList, oneDecano)
+		DeansList = append(DeansList, oneDean)
 	}
 
 	if err := c.Bind(&faculty); err != nil {
@@ -53,9 +53,9 @@ func CreateFaculty(c buffalo.Context) error {
 	verrs := faculty.Validate(tx)
 	if verrs.HasAny() {
 		c.Set("faculty", faculty)
-		c.Set("decanosList", DecanosList)
+		c.Set("deansList", DeansList)
 		c.Set("errors", verrs)
-		return c.Render(422, r.HTML("facultad/new.plush.html"))
+		return c.Render(422, r.HTML("faculty/new.plush.html"))
 	}
 
 	if err := tx.Create(&faculty); err != nil {
@@ -67,16 +67,31 @@ func CreateFaculty(c buffalo.Context) error {
 
 func ListFaculties(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
-	faculties := models.Facultades{}
+	faculties := models.Faculties{}
 	q := tx.PaginateFromParams(c.Params())
 	q.Paginator.PerPage = 5
 	q.Paginator.Offset = (q.Paginator.Page * q.Paginator.PerPage) - q.Paginator.PerPage
 
-	if err := q.Order("nombre").All(&faculties); err != nil {
+	if err := q.Order("name").All(&faculties); err != nil {
 		return err
 	}
 
 	c.Set("faculties", faculties)
 	c.Set("paginatorF", q.Paginator)
-	return c.Render(http.StatusOK, r.HTML("facultad/list.plush.html"))
+	return c.Render(http.StatusOK, r.HTML("faculty/list.plush.html"))
+}
+
+func DeleteFaculty(c buffalo.Context) error {
+	tx := c.Value("tx").(*pop.Connection)
+	faculty := models.Faculty{}
+	facultyID := c.Param("faculty_id")
+	if err := tx.Find(&faculty, facultyID); err != nil {
+		c.Flash().Add("danger", "action could not be completed")
+		return c.Redirect(404, "/faculty/list")
+	}
+	if err := tx.Destroy(&faculty); err != nil {
+		return err
+	}
+	c.Flash().Add("success", "faculty deleted successfully")
+	return c.Redirect(http.StatusSeeOther, "/faculty/list")
 }

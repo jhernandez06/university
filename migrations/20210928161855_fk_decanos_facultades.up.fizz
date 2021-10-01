@@ -1,5 +1,0 @@
-add_foreign_key("facultads", "decano_id", {"decanoes": ["id"]}, {
-    "name": "fk_decano_facultad",
-    "on_delete": "cascade",
-    "on_update": "cascade",
-})

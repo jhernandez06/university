@@ -1,0 +1,24 @@
+
+<table class="table table-hover mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Decaan</th>
+        <th scope="col">Faculty</th>
+        <th scope="col">Location</th>
+        <th scope="col">Nº Block</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for(df) in deanFaculties { %>
+        <tr>
+          <td><%= df.FirstName %> <%= df.LastName %></td>
+          <td><%= df.FacultyName %></td>
+          <td><%= df.Location %></td>
+          <td><%= df.Number %></td>
+        </tr>
+      <% }  %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-start">
+    <%= paginator(paginatorDF) %>
+  </div>

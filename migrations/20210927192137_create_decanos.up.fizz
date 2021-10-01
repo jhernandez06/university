@@ -1,9 +1,0 @@
-create_table("decanoes") {
-	t.Column("id", "uuid", {primary: true})
-	t.Column("nombre", "string", {})
-	t.Column("apellido", "string", {})
-	t.Column("cedula", "string", {})
-	t.Column("rol", "string", {})
-	t.Column("celular", "string", {})
-	t.Timestamps()
-}

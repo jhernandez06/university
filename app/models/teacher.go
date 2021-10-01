@@ -12,14 +12,14 @@ import (
 
 // Teacher is used by pop to map your teachers database table to your go code.
 type Teacher struct {
-	ID         uuid.UUID `json:"id" db:"id"`
-	FacultadID uuid.UUID `json:"facultad_id" db:"facultad_id"`
-	Nombre     string    `json:"nombre" db:"nombre"`
-	Apellido   string    `json:"apellido" db:"apellido"`
-	Cedula     string    `json:"cedula" db:"cedula"`
-	Titulo     string    `json:"titulo" db:"titulo"`
-	CreatedAt  time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt  time.Time `json:"updated_at" db:"updated_at"`
+	ID                 uuid.UUID `json:"id" db:"id"`
+	FacultyID          uuid.UUID `json:"faculty_id" db:"faculty_id"`
+	FirstName          string    `json:"first_name" db:"first_name"`
+	LastName           string    `json:"last_name" db:"last_name"`
+	IdentificationCard string    `json:"identification_card" db:"identification_card"`
+	JobTitle           string    `json:"job_title" db:"job_title"`
+	CreatedAt          time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt          time.Time `json:"updated_at" db:"updated_at"`
 }
 
 // String is not required by pop and may be deleted
@@ -41,10 +41,10 @@ func (t Teachers) String() string {
 // This method is not required and may be deleted.
 func (t *Teacher) Validate(tx *pop.Connection) *validate.Errors {
 	return validate.Validate(
-		&validators.StringIsPresent{Field: t.Nombre, Name: "Nombre"},
-		&validators.StringIsPresent{Field: t.Apellido, Name: "Apellido"},
-		&validators.StringIsPresent{Field: t.Cedula, Name: "Cedula"},
-		&validators.StringIsPresent{Field: t.Titulo, Name: "Titulo"},
+		&validators.StringIsPresent{Field: t.FirstName, Name: "First name"},
+		&validators.StringIsPresent{Field: t.LastName, Name: "Last name"},
+		&validators.StringIsPresent{Field: t.IdentificationCard, Name: "identification card"},
+		&validators.StringIsPresent{Field: t.JobTitle, Name: "Job title"},
 	)
 }
 

@@ -5,11 +5,11 @@
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" href="/teacher/listTF">All Faculties</a>
-    <a class="dropdown-item" href="/teacher/listTF/?facultad=Ingenieria">Engineering</a>
-    <a class="dropdown-item" href="/teacher/listTF/?facultad=Medicina">Medicine</a>
-    <a class="dropdown-item" href="/teacher/listTF/?facultad=Derecho">Law</a>
-    <a class="dropdown-item" href="/teacher/listTF/?facultad=Arte">Art</a>
-    <a class="dropdown-item" href="/teacher/listTF/?facultad=Educacion">Education</a>
+    <a class="dropdown-item" href="/teacher/listTF/?faculty=Ingenieria">Engineering</a>
+    <a class="dropdown-item" href="/teacher/listTF/?faculty=Medicina">Medicine</a>
+    <a class="dropdown-item" href="/teacher/listTF/?faculty=Derecho">Law</a>
+    <a class="dropdown-item" href="/teacher/listTF/?faculty=Arte">Art</a>
+    <a class="dropdown-item" href="/teacher/listTF/?faculty=Educacion">Education</a>
   </div>
 </div>
 <table class="table table-hover mt-4">
@@ -21,11 +21,11 @@
       </tr>
     </thead>
     <tbody>
-      <%= for(TF) in teachersFacultades { %>
+      <%= for(TF) in teacherFaculties { %>
         <tr>
-          <td><%= TF.Facultad %></td>
-          <td><%= TF.Nombre %> <%= TF.Apellido %></td>
-          <td><%= TF.Titulo %></td>
+          <td><%= TF.Faculty %></td>
+          <td><%= TF.FirstName %> <%= TF.LastName %></td>
+          <td><%= TF.JobTitle %></td>
         </tr>
       <% }  %>
     </tbody>

@@ -10,10 +10,10 @@
     <tbody>
       <%= for(TC) in teacherCourses { %>
         <tr>
-          <td><%= TC.Facultad %></td>
+          <td><%= TC.Faculty %></td>
           <td><%= TC.Course %></td>
-          <td><%= TC.Nombre %> <%= TC.Apellido %></td>
-          <td><%= TC.Titulo %></td>
+          <td><%= TC.FirstName %> <%= TC.LastName %></td>
+          <td><%= TC.JobTitle %></td>
         </tr>
       <% }  %>
     </tbody>

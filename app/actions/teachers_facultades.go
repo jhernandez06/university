@@ -8,23 +8,23 @@ import (
 	"github.com/gobuffalo/pop/v5"
 )
 
-func ListTeacherFacultades(c buffalo.Context) error {
+func ListTeacherFaculties(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
-	teachersFacultades := models.TeachersFacultades{}
+	teacherFaculties := models.TeacherFaculties{}
 	q := tx.PaginateFromParams(c.Params())
 	q.Paginator.PerPage = 5
 	q.Paginator.Offset = (q.Paginator.Page * q.Paginator.PerPage) - q.Paginator.PerPage
 
-	status := c.Param("facultad")
+	status := c.Param("faculty")
 	if status != "" {
-		q.Where("facultad = ?", status)
+		q.Where("faculty = ?", status)
 	}
 
-	if err := q.Order("facultad, nombre, apellido").All(&teachersFacultades); err != nil {
+	if err := q.Order("faculty, first_name, last_name").All(&teacherFaculties); err != nil {
 		return err
 	}
 
-	c.Set("teachersFacultades", teachersFacultades)
+	c.Set("teacherFaculties", teacherFaculties)
 	c.Set("paginatorTF", q.Paginator)
 	return c.Render(http.StatusOK, r.HTML("teacher/listTF.plush.html"))
 }

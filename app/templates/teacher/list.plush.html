@@ -5,15 +5,17 @@
         <th scope="col">Last Name</th>
         <th scope="col">University degree</th>
         <th scope="col">CC</th>
+        <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
       <%= for(teacher) in teachers { %>
         <tr>
-          <td><%= teacher.Nombre %></td>
-          <td><%= teacher.Apellido %></td>
-          <td><%= teacher.Titulo %></td>
-          <td><%= teacher.Cedula %></td>
+          <td><%= teacher.FirstName %></td>
+          <td><%= teacher.LastName %></td>
+          <td><%= teacher.JobTitle %></td>
+          <td><%= teacher.IdentificationCard %></td>
+          <td><a href="/teacher/delete/<%= teacher.ID %>" data-method="DELETE" data-confirm= "Are you sure?" class="btn btn-sm btn-danger">Delete</a></td>
         </tr>
       <% }  %>
     </tbody>

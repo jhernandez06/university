@@ -1,0 +1,24 @@
+
+<table class="table table-hover mt-4">
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Cell Phone</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for(dean) in deans { %>
+        <tr>
+          <td><%= dean.FirstName %></td>
+          <td><%= dean.LastName %></td>
+          <td><%= dean.CellPhoneNumber %></td>
+          <td><a href="/dean/delete/<%= dean.ID %>" data-method="DELETE" data-confirm= "Are you sure?" class="btn btn-sm btn-danger">Delete</a></td>
+        </tr>
+      <% }  %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-start">
+    <%= paginator(paginatorD) %>
+  </div>

@@ -1,3 +1,17 @@
+<div class="d-flex justify-content-between">
+  <a class="display-4 text-decoration-none text-dark" href="/course/list/">All Courses</a>
+  <form class="form-inline my-2 my-lg-0" action="/course/list/" id="course-form" method="GET">
+    <input class="form-control mr-sm-2" id="course-KeyWord" name="KeyWord"type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</div>
+
+<div>
+  <%= if (search) { %>
+    <span class="badge badge-primary"><%= count %> Results</span>
+  <% }  %>
+</div>
+
 
 <table class="table table-hover mt-4">
     <thead>
@@ -5,14 +19,16 @@
         <th scope="col">Name</th>
         <th scope="col">Code</th>
         <th scope="col">credits</th>
+        <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
       <%= for(course) in courses { %>
         <tr>
-          <td><%= course.Nombre %></td>
-          <td><%= course.Codigo %></td>
+          <td><%= course.Name %></td>
+          <td><%= course.Code %></td>
           <td><%= course.Creditos %></td>
+          <td><a href="/course/delete/<%= course.ID %>" data-method="DELETE" data-confirm= "Are you sure?" class="btn btn-sm btn-danger">Delete</a></td>
         </tr>
       <% }  %>
     </tbody>

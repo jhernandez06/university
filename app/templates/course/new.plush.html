@@ -6,8 +6,8 @@
 
   	<%= formFor(course, {action: courseCreatePath(), method: "POST"}) { %>
         <div class="mb-3 grid-form">
-            <%= f.InputTag("Nombre") %>
-            <%= f.InputTag("Codigo") %>
+            <%= f.InputTag("Nome") %>
+            <%= f.InputTag("Code") %>
         </div>
         <div class="mb-3 grid-form">
             <%= f.InputTag("Creditos", {label: "Numero De Creditos", placeholder:"#"}) %>

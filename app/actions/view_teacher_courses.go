@@ -15,7 +15,7 @@ func ListTeacherCourses(c buffalo.Context) error {
 	q.Paginator.PerPage = 5
 	q.Paginator.Offset = (q.Paginator.Page * q.Paginator.PerPage) - q.Paginator.PerPage
 
-	if err := q.Order("facultad, nombre, apellido").All(&teacherCourses); err != nil {
+	if err := q.Order("faculty, first_name, last_name").All(&teacherCourses); err != nil {
 		return err
 	}
 

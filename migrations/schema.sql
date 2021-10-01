@@ -26,8 +26,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.courses (
     id uuid NOT NULL,
-    codigo character varying(255) NOT NULL,
-    nombre character varying(255) NOT NULL,
+    code character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
     creditos integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -37,55 +37,55 @@ CREATE TABLE public.courses (
 ALTER TABLE public.courses OWNER TO postgres;
 
 --
--- Name: decanoes; Type: TABLE; Schema: public; Owner: postgres
+-- Name: deans; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.decanoes (
+CREATE TABLE public.deans (
     id uuid NOT NULL,
-    nombre character varying(255) NOT NULL,
-    apellido character varying(255) NOT NULL,
-    cedula character varying(255) NOT NULL,
+    first_name character varying(255) NOT NULL,
+    last_name character varying(255) NOT NULL,
+    identification_card character varying(255) NOT NULL,
     rol character varying(255) NOT NULL,
-    celular character varying(255) NOT NULL,
+    cell_phone_number character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
-ALTER TABLE public.decanoes OWNER TO postgres;
+ALTER TABLE public.deans OWNER TO postgres;
 
 --
--- Name: facultads; Type: TABLE; Schema: public; Owner: postgres
+-- Name: faculties; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.facultads (
+CREATE TABLE public.faculties (
     id uuid NOT NULL,
-    decano_id uuid NOT NULL,
-    numero character varying NOT NULL,
-    ubicacion character varying NOT NULL,
-    nombre character varying NOT NULL,
+    dean_id uuid NOT NULL,
+    number character varying NOT NULL,
+    location character varying NOT NULL,
+    name character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
-ALTER TABLE public.facultads OWNER TO postgres;
+ALTER TABLE public.faculties OWNER TO postgres;
 
 --
--- Name: decano_facultads; Type: VIEW; Schema: public; Owner: postgres
+-- Name: dean_faculties; Type: VIEW; Schema: public; Owner: postgres
 --
 
-CREATE VIEW public.decano_facultads AS
- SELECT d.nombre,
-    d.apellido,
-    f.nombre AS facultad_nombre,
-    f.ubicacion,
-    f.numero
-   FROM (public.facultads f
-     JOIN public.decanoes d ON ((d.id = f.decano_id)));
+CREATE VIEW public.dean_faculties AS
+ SELECT d.first_name,
+    d.last_name,
+    f.name AS faculty_name,
+    f.location,
+    f.number
+   FROM (public.faculties f
+     JOIN public.deans d ON ((d.id = f.dean_id)));
 
 
-ALTER TABLE public.decano_facultads OWNER TO postgres;
+ALTER TABLE public.dean_faculties OWNER TO postgres;
 
 --
 -- Name: schema_migration; Type: TABLE; Schema: public; Owner: postgres
@@ -119,11 +119,11 @@ ALTER TABLE public.teacher_courses OWNER TO postgres;
 
 CREATE TABLE public.teachers (
     id uuid NOT NULL,
-    facultad_id uuid NOT NULL,
-    nombre character varying(255) NOT NULL,
-    apellido character varying(255) NOT NULL,
-    cedula character varying(255) NOT NULL,
-    titulo character varying(255) NOT NULL,
+    faculty_id uuid NOT NULL,
+    first_name character varying(255) NOT NULL,
+    last_name character varying(255) NOT NULL,
+    identification_card character varying(255) NOT NULL,
+    job_title character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -132,34 +132,34 @@ CREATE TABLE public.teachers (
 ALTER TABLE public.teachers OWNER TO postgres;
 
 --
--- Name: teachers_facultads; Type: VIEW; Schema: public; Owner: postgres
+-- Name: teacher_faculties; Type: VIEW; Schema: public; Owner: postgres
 --
 
-CREATE VIEW public.teachers_facultads AS
- SELECT f.nombre AS facultad,
-    t.nombre,
-    t.apellido,
-    t.titulo
+CREATE VIEW public.teacher_faculties AS
+ SELECT f.name AS faculty,
+    t.first_name,
+    t.last_name,
+    t.job_title
    FROM (public.teachers t
-     JOIN public.facultads f ON ((f.id = t.facultad_id)));
+     JOIN public.faculties f ON ((f.id = t.faculty_id)));
 
 
-ALTER TABLE public.teachers_facultads OWNER TO postgres;
+ALTER TABLE public.teacher_faculties OWNER TO postgres;
 
 --
 -- Name: view_teacher_courses; Type: VIEW; Schema: public; Owner: postgres
 --
 
 CREATE VIEW public.view_teacher_courses AS
- SELECT f.nombre AS facultad,
-    c.nombre AS course,
-    t.nombre,
-    t.apellido,
-    t.titulo
+ SELECT f.name AS faculty,
+    c.name AS course,
+    t.first_name,
+    t.last_name,
+    t.job_title
    FROM (((public.teacher_courses tc
      JOIN public.courses c ON ((c.id = tc.course_id)))
      JOIN public.teachers t ON ((t.id = tc.teacher_id)))
-     JOIN public.facultads f ON ((f.id = t.facultad_id)));
+     JOIN public.faculties f ON ((f.id = t.faculty_id)));
 
 
 ALTER TABLE public.view_teacher_courses OWNER TO postgres;
@@ -173,27 +173,27 @@ ALTER TABLE ONLY public.courses
 
 
 --
--- Name: decanoes decanoes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: deans deans_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.decanoes
-    ADD CONSTRAINT decanoes_pkey PRIMARY KEY (id);
-
-
---
--- Name: facultads facultads_decano_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.facultads
-    ADD CONSTRAINT facultads_decano_id_key UNIQUE (decano_id);
+ALTER TABLE ONLY public.deans
+    ADD CONSTRAINT deans_pkey PRIMARY KEY (id);
 
 
 --
--- Name: facultads facultads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: faculties faculties_dean_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.facultads
-    ADD CONSTRAINT facultads_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.faculties
+    ADD CONSTRAINT faculties_dean_id_key UNIQUE (dean_id);
+
+
+--
+-- Name: faculties faculties_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.faculties
+    ADD CONSTRAINT faculties_pkey PRIMARY KEY (id);
 
 
 --
@@ -220,19 +220,19 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 
 
 --
--- Name: facultads fk_decano_facultad; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: faculties fk_dean_faculty; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.facultads
-    ADD CONSTRAINT fk_decano_facultad FOREIGN KEY (decano_id) REFERENCES public.decanoes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.faculties
+    ADD CONSTRAINT fk_dean_faculty FOREIGN KEY (dean_id) REFERENCES public.deans(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: teachers fk_facultad_teacher; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: teachers fk_faculty_teacher; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.teachers
-    ADD CONSTRAINT fk_facultad_teacher FOREIGN KEY (facultad_id) REFERENCES public.facultads(id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT fk_faculty_teacher FOREIGN KEY (faculty_id) REFERENCES public.faculties(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

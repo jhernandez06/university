@@ -1,0 +1,1 @@
+drop_foreign_key("faculties", "fk_dean_faculties", {"if_exists": true})

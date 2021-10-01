@@ -1,7 +1,7 @@
 create_table("courses") {
 	t.Column("id", "uuid", {primary: true})
-	t.Column("codigo", "string", {})
-	t.Column("nombre", "string", {})
+	t.Column("code", "string", {})
+	t.Column("name", "string", {})
 	t.Column("creditos", "int", {})
 	t.Timestamps()
 }

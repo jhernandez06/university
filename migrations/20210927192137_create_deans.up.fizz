@@ -1,0 +1,9 @@
+create_table("deans") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("first_name", "string", {})
+	t.Column("last_name", "string", {})
+	t.Column("identification_card", "string", {})
+	t.Column("rol", "string", {})
+	t.Column("cell_phone_number", "string", {})
+	t.Timestamps()
+}

@@ -1,0 +1,24 @@
+
+<table class="table table-hover mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Location</th>
+        <th scope="col">Nº Block</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for(faculty) in faculties { %>
+        <tr>
+          <td><%= faculty.Name %></td>
+          <td><%= faculty.Location %></td>
+          <td><%= faculty.Number %></td>
+          <td><a href="/faculty/delete/<%= faculty.ID %>" data-method="DELETE" data-confirm= "Are you sure?" class="btn btn-sm btn-danger">Delete</a></td>
+        </tr>
+      <% }  %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-start">
+    <%= paginator(paginatorF) %>
+  </div>

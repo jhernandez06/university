@@ -30,41 +30,41 @@ func init() {
 // task for create 5 teacher, 5 faculties,
 var _ = grift.Add("create", func(c *grift.Context) error {
 	db := models.DB()
-	facultades := [5]string{"Ingenieria", "Medicina", "Arte", "Educacion", "Derecho"}
-	asignaturas := [30]string{"Electronica", "Circuitos", "Control", "Instrumentaccion", "Ortopedia", "Salud mental", "Neuro", "Farmacologia", "Arte", "Literatura", "Ceramica", "Dibujo tecnico", "Calculo 1", "Diseño experimental", "Fisica 1", "Metodos numericos", "Civil 1", "Civil 2", "Laboral 1", "Laboral 2", "Penal 1", "Penal 2"}
+	faculties := [5]string{"Ingenieria", "Medicina", "Arte", "Educacion", "Derecho"}
+	courses_test := [30]string{"Electronica", "Circuitos", "Control", "Instrumentaccion", "Ortopedia", "Salud mental", "Neuro", "Farmacologia", "Arte", "Literatura", "Ceramica", "Dibujo tecnico", "Calculo 1", "Diseño experimental", "Fisica 1", "Metodos numericos", "Civil 1", "Civil 2", "Laboral 1", "Laboral 2", "Penal 1", "Penal 2"}
 
 	for i := 0; i < 5; i++ {
 		var f Fako
 		fako.Fill(&f)
-		decano := &models.Decano{
-			Nombre:   f.FirstName, //fmt.Sprintf("Admin %v", i+1),
-			Apellido: f.LastName,
-			Rol:      "decano",
-			Cedula:   fmt.Sprintf("106%v", i+1),
-			Celular:  f.Celular}
+		dean := &models.Dean{
+			FirstName:          f.FirstName, //fmt.Sprintf("Admin %v", i+1),
+			LastName:           f.LastName,
+			Rol:                "deans",
+			IdentificationCard: fmt.Sprintf("106%v", i+1),
+			CellPhoneNumber:    f.Celular}
 
-		if err := db.Create(decano); err != nil {
+		if err := db.Create(dean); err != nil {
 			return err
 		}
 
-		facultad := models.Facultad{
-			DecanoID:  decano.ID,
-			Numero:    fmt.Sprintf("b%v", i+1),
-			Ubicacion: f.Ubicacion,
-			Nombre:    facultades[i],
+		faculty := models.Faculty{
+			DeanID:   dean.ID,
+			Number:   fmt.Sprintf("b%v", i+1),
+			Location: f.Ubicacion,
+			Name:     faculties[i],
 		}
-		if err := db.Create(&facultad); err != nil {
+		if err := db.Create(&faculty); err != nil {
 			return err
 		}
 		for i := 0; i < 4; i++ {
 			var f Fako
 			fako.Fill(&f)
 			teacher := models.Teacher{
-				FacultadID: facultad.ID,
-				Nombre:     f.FirstName,
-				Apellido:   f.LastName,
-				Cedula:     fmt.Sprintf("1065%v", f.Cedula),
-				Titulo:     f.Titulo,
+				FacultyID:          faculty.ID,
+				FirstName:          f.FirstName,
+				LastName:           f.LastName,
+				IdentificationCard: fmt.Sprintf("1065%v", f.Cedula),
+				JobTitle:           f.Titulo,
 			}
 			if err := db.Create(&teacher); err != nil {
 				return err
@@ -75,8 +75,8 @@ var _ = grift.Add("create", func(c *grift.Context) error {
 		var f Fako
 		fako.Fill(&f)
 		course := models.Course{
-			Codigo:   fmt.Sprintf("AB%v", i+1),
-			Nombre:   asignaturas[i],
+			Code:     fmt.Sprintf("AB%v", i+1),
+			Name:     courses_test[i],
 			Creditos: 4,
 		}
 		if err := db.Create(&course); err != nil {
@@ -107,11 +107,11 @@ var _ = grift.Add("create", func(c *grift.Context) error {
 var _ = grift.Add("delete", func(c *grift.Context) error {
 	db := models.DB()
 	q := db.Q()
-	decanos := models.Decanoes{}
-	if err := q.All(&decanos); err != nil {
+	deans := models.Deans{}
+	if err := q.All(&deans); err != nil {
 		return err
 	}
-	for _, d := range decanos {
+	for _, d := range deans {
 		if err := db.Destroy(&d); err != nil {
 			return err
 		}
@@ -139,14 +139,3 @@ var _ = grift.Add("delete", func(c *grift.Context) error {
 
 	return nil
 })
-
-// var _ = grift.Add("facultades", func(c *grift.Context) error {
-// 	db := models.DB()
-
-// 	return nil
-// })
-// var _ = grift.Add("deleteFacultades", func(c *grift.Context) error {
-// 	db := models.DB()
-
-// 	return nil
-// })

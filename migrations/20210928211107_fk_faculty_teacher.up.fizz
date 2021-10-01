@@ -1,0 +1,5 @@
+add_foreign_key("teachers", "faculty_id", {"faculties": ["id"]}, {
+    "name": "fk_faculty_teacher",
+    "on_delete": "cascade",
+    "on_update": "cascade",
+})

@@ -1,1 +1,0 @@
-DROP VIEW teachers_facultads CASCADE;
