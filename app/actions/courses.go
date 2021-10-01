@@ -48,9 +48,10 @@ func ListCourses(c buffalo.Context) error {
 		return err
 	}
 	if course.KeyWord != "" {
-		key := fmt.Sprintf("name LIKE '%%%s%%'", course.KeyWord)
-
-		if err := q.Where(key).All(&courses); err != nil {
+		key := "name LIKE ? OR "
+		key += "code LIKE ?"
+		fmt.Println(key)
+		if err := q.Where(key, "%"+course.KeyWord+"%", "%"+course.KeyWord+"%").All(&courses); err != nil {
 			return err
 		}
 		count, err := q.Count(&courses)
