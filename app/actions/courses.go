@@ -22,7 +22,7 @@ func CreateCourse(c buffalo.Context) error {
 
 	if err := c.Bind(&course); err != nil {
 		verrs := validate.NewErrors()
-		verrs.Add("creditos", "SE JODIO LOLA XD")
+		verrs.Add("creditos", "Error: could not parse number")
 		c.Set("course", course)
 		c.Set("errors", verrs)
 		return c.Render(422, r.HTML("course/new.plush.html"))
