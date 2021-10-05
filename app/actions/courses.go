@@ -8,6 +8,7 @@ import (
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop/v5"
+	"github.com/gobuffalo/validate"
 )
 
 func NewCourse(c buffalo.Context) error {
@@ -20,7 +21,11 @@ func CreateCourse(c buffalo.Context) error {
 	course := models.Course{}
 
 	if err := c.Bind(&course); err != nil {
-		return err
+		verrs := validate.NewErrors()
+		verrs.Add("creditos", "SE JODIO LOLA XD")
+		c.Set("course", course)
+		c.Set("errors", verrs)
+		return c.Render(422, r.HTML("course/new.plush.html"))
 	}
 
 	verrs := course.Validate(tx)
@@ -33,6 +38,7 @@ func CreateCourse(c buffalo.Context) error {
 	if err := tx.Create(&course); err != nil {
 		return err
 	}
+
 	c.Flash().Add("success", "Successfully created course")
 	return c.Redirect(http.StatusSeeOther, "/")
 }
