@@ -6,15 +6,15 @@
 
   	<%= formFor(course, {action: courseCreatePath(), method: "POST"}) { %>
         <div class="mb-3 grid-form">
-            <%= f.InputTag("Nome") %>
+            <%= f.InputTag("Name") %>
             <%= f.InputTag("Code") %>
         </div>
         <div class="mb-3 grid-form">
-            <%= f.InputTag("Creditos", {label: "Numero De Creditos", placeholder:"#"}) %>
+            <%= f.InputTag("Creditos", {label: "Numero De Creditos", placeholder:"#", type: "number"}) %>
         </div>
 	 	<div class="d-flex justify-content-end">
         	<%= linkTo(rootPath(), {class: "btn btn-warning mr-3", "data-confirm": "Are you sure?", body: "Cancel"}) %>
-    	<button class="btn btn-success" role="submit">Save</button>
-</div>
+    		<button class="btn btn-success" role="submit">Save</button>
+		</div>
   	<% } %>
 </div>

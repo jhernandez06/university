@@ -12,13 +12,40 @@
   <% }  %>
 </div>
 
-
-<table class="table table-hover mt-4">
+<table id="courses" class="table table-hover mt-4">
     <thead>
       <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Code</th>
-        <th scope="col">credits</th>
+        <th data-column="name" scope="col">Name
+            <%= if (params["order"] != "1") { %>
+
+                <%= linkTo(courseListPath({order:"1", page:params["page"], perPage:params["perPage"]}), {class: " text-decoration-none"}) { %>
+                  <i class="fas fa-chevron-up"></i>
+                  <% } %>
+
+            <% } %>
+
+            <%= if (params["order"] != "2") { %>
+
+                <%= linkTo(courseListPath({order: "2", page: params["page"], perPage: params["perPage"]}), {}) { %>
+                  <i class="fas fa-chevron-down"></i>
+                  <% } %>
+
+            <% } %>
+            </th>
+        <th data-column="code" scope="col">Code
+          <%= if (params["order"] != "3") { %>
+                <%= linkTo(courseListPath({order:"3", page:params["page"], perPage:params["perPage"]}), {class: "text-decoration-none"}) { %>
+                  <i class="fas fa-chevron-up"></i>
+                  <% } %>
+          <% } %>
+
+          <%= if (params["order"] != "4") { %>
+                <%= linkTo(courseListPath({order: "4", page: params["page"], perPage: params["perPage"]}), {}) { %>
+                  <i class="fas fa-chevron-down"></i>
+                  <% } %>
+          <% } %>
+        </th>
+        <th data-column="credits" scope="col">Credits</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -34,5 +61,15 @@
     </tbody>
   </table>
   <div class="d-flex justify-content-start">
-    <%= paginator(paginatorC) %>
+      <div class="dropdown">
+        <button class="btn btn-light mr-3 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Show : <%= perPage %>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <%= linkTo(courseListPath({order: params["order"], perPage: "5"}), {class: "dropdown-item", body: "5"}) %>
+          <%= linkTo(courseListPath({order: params["order"], perPage: "10"}), {class: "dropdown-item", body: "10"}) %>
+          <%= linkTo(courseListPath({order: params["order"], perPage: "15"}), {class: "dropdown-item", body: "15"}) %>
+        </div>
+      </div>
+      <%= paginator(paginatorC) %>
   </div>
