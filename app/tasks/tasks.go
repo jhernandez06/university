@@ -75,7 +75,7 @@ var _ = grift.Add("create", func(c *grift.Context) error {
 		var f Fako
 		fako.Fill(&f)
 		course := models.Course{
-			Code:     fmt.Sprintf("AB%v", i+1),
+			Code:     fmt.Sprintf("00%v", i+1),
 			Name:     courses_test[i],
 			Creditos: 4,
 		}

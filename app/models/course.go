@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/gobuffalo/pop/v5"
@@ -42,8 +43,23 @@ func (c *Course) Validate(tx *pop.Connection) *validate.Errors {
 	return validate.Validate(
 		&validators.StringIsPresent{Field: c.Code, Name: "Code"},
 		&validators.StringIsPresent{Field: c.Name, Name: "Name"},
-		&validators.IntIsPresent{Field: c.Creditos, Name: "Creditos"},
+		&IntIsPresent{Name: "Creditos", Field: c.Creditos},
 	)
+}
+
+type IntIsPresent struct {
+	Name    string
+	Field   int
+	Message string
+}
+
+// IsValid adds an error if the field equals 0.
+func (v *IntIsPresent) IsValid(errors *validate.Errors) {
+	if v.Field > 0 {
+		return
+	}
+
+	errors.Add(validators.GenerateKey(v.Name), fmt.Sprintf("%s The credits must be greater than 0", v.Name))
 }
 
 // ValidateCreate gets run every time you call "pop.ValidateAndCreate" method.
