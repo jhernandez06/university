@@ -1,9 +1,27 @@
 <div class="d-flex justify-content-between">
-  <a class="display-4 text-decoration-none text-dark" href="/course/list/">All Courses</a>
-  <form class="form-inline my-2 my-lg-0" action="/course/list/" id="course-form" method="GET">
-    <input class="form-control mr-sm-2" id="course-KeyWord" name="KeyWord"type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
+    <a class="display-4 text-decoration-none text-dark" href="/course/list/">All Courses</a>
+
+    <div class="d-flex just-content-end align-items-center">
+        <div class="search-category">
+              <button type="button" class="btn btn-success mr-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Search by: <%= category %>
+              </button>
+              <div class="dropdown-menu ">
+                <span class="dropdown-item" data-category="name">Name</span>
+                <span class="dropdown-item" data-category="code">Code</span>
+              </div>
+        </div>
+
+            <form class="search-category form-inline my-2 my-lg-0" action="/course/list/" id="course-form" method="GET">
+              <input class="form-control mr-sm-2" id="course-Category" name="Category"type="hidden" value="<%= category %>">
+              <input class="form-control mr-sm-2" id="course-KeyWord" name="KeyWord"type="search" placeholder="Search" aria-label="Search" value="<%= keyword %>">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+            <i class="fas fa-search  ml-2"></i>
+            <i class="fas fa-times search-category ml-2"></i>
+      </div>
+
 </div>
 
 <div>

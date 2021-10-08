@@ -77,9 +77,14 @@ func ListCourses(c buffalo.Context) error {
 	}
 
 	if course.KeyWord != "" {
-		key := "name LIKE ? OR "
-		key += "code LIKE ?"
-		if err := q.Where(key, "%"+course.KeyWord+"%", "%"+course.KeyWord+"%").All(&courses); err != nil {
+		// key := "name LIKE ? OR "
+		// key += "code LIKE ?"
+		// if err := q.Where(key, "%"+course.KeyWord+"%", "%"+course.KeyWord+"%").All(&courses); err != nil {
+		// 	return err
+		// }
+
+		query := fmt.Sprintf("%s LIKE ?", course.Category)
+		if err := q.Where(query, "%"+course.KeyWord+"%").All(&courses); err != nil {
 			return err
 		}
 		count, err := q.Count(&courses)
@@ -88,6 +93,8 @@ func ListCourses(c buffalo.Context) error {
 		}
 
 		c.Set("count", count)
+		c.Set("category", course.Category)
+		c.Set("keyword", course.KeyWord)
 		c.Set("search", true)
 		return List(c)
 	}
@@ -97,6 +104,8 @@ func ListCourses(c buffalo.Context) error {
 	}
 	fmt.Println("------------------------------>>>>", c.Request().URL)
 	c.Set("search", false)
+	c.Set("category", "name")
+	c.Set("keyword", "")
 	return List(c)
 }
 

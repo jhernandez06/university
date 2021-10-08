@@ -10020,3 +10020,15 @@ h3 {
 .row-by-page {
   max-width: 150px;
 }
+
+.fa-times, .fa-search:hover {
+  cursor: pointer;
+}
+
+.search-category button {
+  text-transform: capitalize;
+}
+
+.search-category {
+  display: none;
+}

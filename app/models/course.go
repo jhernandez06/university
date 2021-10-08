@@ -17,6 +17,7 @@ type Course struct {
 	Code      string    `json:"code" db:"code"`
 	Name      string    `json:"name" db:"name"`
 	Creditos  int       `json:"creditos" db:"creditos"`
+	Category  string    `json:"-" db:"-"`
 	KeyWord   string    `json:"-" db:"-"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
